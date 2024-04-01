@@ -1,19 +1,17 @@
 import 'package:firebase_project/common/colors.dart';
-import 'package:firebase_project/features/auth/views/sign_up.dart';
+import 'package:firebase_project/features/auth/repository/auth_repository.dart';
+import 'package:firebase_project/features/auth/views/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../home/views/home.dart';
-import '../repository/auth_repository.dart';
-
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -38,7 +36,7 @@ class _SignInState extends State<SignIn> {
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/arkaplanone.png'),
+                image: AssetImage('assets/images/arkaplantwo.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -64,7 +62,7 @@ class _SignInState extends State<SignIn> {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         alignment: Alignment.centerLeft,
                         child: const Text(
-                          "Sign In",
+                          "Sign Up",
                           style: TextStyle(
                             color: containerColor,
                             fontSize: 24,
@@ -107,35 +105,19 @@ class _SignInState extends State<SignIn> {
                             child: MaterialButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  ref
-                                      .read(auttControllerProvider)
-                                      .signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text)
-                                      .then((value) => Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => const Home(),
-                                          ),
-                                          (route) => false));
+                                  ref.read(auttControllerProvider).signUpWithEmailAndPassword(
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      ).then((value) => Navigator.pop(context));
                                 }
                               },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                               minWidth: double.infinity,
                               color: buttonColor,
-                              child: const Padding(padding: EdgeInsets.symmetric(vertical: 10), child: Text("Sign In")),
+                              child: const Padding(padding: EdgeInsets.symmetric(vertical: 10), child: Text("Sign Up")),
                             ),
                           );
                         },
-                      ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2),
-                            child: TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  "Forgot Password?",
-                                  style: TextStyle(color: containerColor, fontSize: 16),
-                                ))),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -147,16 +129,16 @@ class _SignInState extends State<SignIn> {
                                 TextButton(
                                   onPressed: () {},
                                   child: const Text(
-                                    "Don’t haven’t an account ?",
+                                    "Do you have an account ?",
                                     style: TextStyle(color: containerColor, fontSize: 16),
                                   ),
                                 ),
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUp()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (_) => const SignIn()));
                                   },
                                   child: const Text(
-                                    " Sign up",
+                                    " Sign in",
                                     style: TextStyle(color: buttonColor, fontSize: 16),
                                   ),
                                 ),
