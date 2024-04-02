@@ -1,27 +1,26 @@
 import 'package:firebase_project/common/colors.dart';
-import 'package:firebase_project/features/auth/controller/auth_controller.dart';
-import 'package:firebase_project/features/auth/views/sign_in.dart';
-import 'package:firebase_project/features/auth/views/sign_up_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class SignUpInfo extends StatefulWidget {
+  const SignUpInfo({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<SignUpInfo> createState() => _SignUpInfoState();
 }
 
-class _SignUpState extends State<SignUp> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class _SignUpInfoState extends State<SignUpInfo> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _nameController.dispose();
+    _surnameController.dispose();
+    _usernameController.dispose();
 
     super.dispose();
   }
@@ -73,12 +72,12 @@ class _SignUpState extends State<SignUp> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: TextFormField(
-                          controller: _emailController,
-                          validator: (value) => value!.isEmpty ? 'Please enter email' : null,
+                          controller: _nameController,
+                          validator: (value) => value!.isEmpty ? 'Please enter name' : null,
                           decoration: InputDecoration(
                             fillColor: containerColor,
                             filled: true,
-                            labelText: 'Email',
+                            labelText: 'Name',
                             labelStyle: const TextStyle(color: titleColor),
                             border: OutlineInputBorder(borderSide: const BorderSide(color: containerColor), borderRadius: BorderRadius.circular(20)),
                           ),
@@ -87,14 +86,29 @@ class _SignUpState extends State<SignUp> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: TextFormField(
-                          controller: _passwordController,
-                          validator: (value) => value!.isEmpty ? 'Please enter password' : null,
+                          controller: _surnameController,
+                          validator: (value) => value!.isEmpty ? 'Please enter surname' : null,
                           obscureText: true,
                           decoration: InputDecoration(
                             fillColor: containerColor,
                             filled: true,
                             labelStyle: const TextStyle(color: titleColor),
-                            labelText: 'Password',
+                            labelText: 'Surname',
+                            border: OutlineInputBorder(borderSide: const BorderSide(color: borderColor), borderRadius: BorderRadius.circular(20)),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: TextFormField(
+                          controller: _usernameController,
+                          validator: (value) => value!.isEmpty ? 'Please enter username' : null,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            fillColor: containerColor,
+                            filled: true,
+                            labelStyle: const TextStyle(color: titleColor),
+                            labelText: 'Username',
                             border: OutlineInputBorder(borderSide: const BorderSide(color: borderColor), borderRadius: BorderRadius.circular(20)),
                           ),
                         ),
@@ -105,51 +119,15 @@ class _SignUpState extends State<SignUp> {
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: MaterialButton(
                               onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  // burda  authcontroller oluşturduk ve sign up işlemi yapılacak
-                                  ref
-                                      .read(auttControllerProvider)
-                                      .signUpWithEmailAndPassword(
-                                        email: _emailController.text,
-                                        password: _passwordController.text,
-                                      )
-                                      .then((value) => Navigator.pushAndRemoveUntil(
-                                          context, MaterialPageRoute(builder: (_) => const SignUpInfo()), (route) => false));
-                                }
+                                if (_formKey.currentState!.validate()) {}
                               },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                               minWidth: double.infinity,
                               color: buttonColor,
-                              child: const Padding(padding: EdgeInsets.symmetric(vertical: 10), child: Text("Continue")),
+                              child: const Padding(padding: EdgeInsets.symmetric(vertical: 10), child: Text("Sign Up")),
                             ),
                           );
                         },
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "Do you have an account ?",
-                                    style: TextStyle(color: containerColor, fontSize: 16),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (_) => const SignIn()));
-                                  },
-                                  child: const Text(
-                                    " Sign in",
-                                    style: TextStyle(color: buttonColor, fontSize: 16),
-                                  ),
-                                ),
-                              ],
-                            )),
                       ),
                     ],
                   ),
