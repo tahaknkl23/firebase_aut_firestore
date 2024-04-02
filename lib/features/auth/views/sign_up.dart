@@ -1,5 +1,5 @@
 import 'package:firebase_project/common/colors.dart';
-import 'package:firebase_project/features/auth/repository/auth_repository.dart';
+import 'package:firebase_project/features/auth/controller/auth_controller.dart';
 import 'package:firebase_project/features/auth/views/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -105,10 +105,14 @@ class _SignUpState extends State<SignUp> {
                             child: MaterialButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  ref.read(auttControllerProvider).signUpWithEmailAndPassword(
+                                  // burda  authcontroller oluşturduk ve sign up işlemi yapılacak
+                                  ref
+                                      .read(auttControllerProvider)
+                                      .signUpWithEmailAndPassword(
                                         email: _emailController.text,
                                         password: _passwordController.text,
-                                      ).then((value) => Navigator.pop(context));
+                                      )
+                                      .then((value) => Navigator.pop(context));
                                 }
                               },
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

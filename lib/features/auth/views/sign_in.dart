@@ -1,10 +1,10 @@
 import 'package:firebase_project/common/colors.dart';
+import 'package:firebase_project/features/auth/controller/auth_controller.dart';
 import 'package:firebase_project/features/auth/views/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../home/views/home.dart';
-import '../repository/auth_repository.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -14,11 +14,14 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  //6. adım conroller oluşturuldu burda atadık
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+// 12. adım formkey oluşturuldu
   final _formKey = GlobalKey<FormState>();
 
+// 7. adım burda dispose işlemi yapıldı
   @override
   void dispose() {
     _emailController.dispose();
@@ -54,6 +57,8 @@ class _SignInState extends State<SignIn> {
                   topRight: Radius.circular(50),
                 ),
               ),
+
+              //13. adım key atadık ve denetleme işlemi yaptık
               child: Form(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 key: _formKey,
@@ -74,7 +79,9 @@ class _SignInState extends State<SignIn> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: TextFormField(
+                          // 8. adım burda controller ataması yapıldı
                           controller: _emailController,
+                          //14. adım boş olup olmadığını kontrol etmek için validator oluşturduk
                           validator: (value) => value!.isEmpty ? 'Please enter email' : null,
                           decoration: InputDecoration(
                             fillColor: containerColor,
@@ -88,7 +95,9 @@ class _SignInState extends State<SignIn> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: TextFormField(
+                          // 9. adım burda controller ataması yapıldı
                           controller: _passwordController,
+                          // 15. adım boş olup olmadığını kontrol etmek için validator oluşturduk
                           validator: (value) => value!.isEmpty ? 'Please enter password' : null,
                           obscureText: true,
                           decoration: InputDecoration(
@@ -100,16 +109,19 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                       ),
+                      //10. adım conusmer içine aldık paddingi controlerdan autcontroler oluşturmaya geçtik
                       Consumer(
                         builder: (context, ref, child) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: MaterialButton(
                               onPressed: () {
+                                //16. adım burda formun doğruluğunu kontrol etmek için if koşulu oluşturduk
                                 if (_formKey.currentState!.validate()) {
                                   ref
                                       .read(auttControllerProvider)
                                       .signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text)
+                                      //17. adım burda sign in işlemi yapılacak ve home sayfasına yönlendirilecek
                                       .then((value) => Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(

@@ -2,22 +2,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controller/auth_controller.dart';
-
+//üçüncü adım riveerpod ekledik losröler arasında rahat geçis yapabilmek için
 final authRepositoryProvider = Provider((ref) => AuthRepository(auth: FirebaseAuth.instance));
 
-final auttControllerProvider = Provider(
-  (ref) => AuthController(
-    authRepository: ref.watch(authRepositoryProvider),
-  ),
-);
-
+//birinci adım
 class AuthRepository {
   final FirebaseAuth auth;
   AuthRepository({
     required this.auth,
   });
 
+//ikinci adım
   Future<void> signInWithEmailAndPassword({
     required String email,
     required String password,
@@ -32,6 +27,7 @@ class AuthRepository {
     }
   }
 
+//burası sign up tıkladığında kayıt olma işlemi yapılacak
   Future<void> signUpWithEmailAndPassword({
     required String email,
     required String password,
